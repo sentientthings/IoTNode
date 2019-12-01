@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="350x44retina.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Sentient Things IoT Node Library
-   &#160;<span id="projectnumber">Version 0.0.1</span>
+   &#160;<span id="projectnumber">Version 0.0.2</span>
    </div>
    <div id="projectbrief">Library for the Sentient Things IoT Node to manage the power and on-board peripherals like the RTC and FRAM memory</div>
   </td>
@@ -104,6 +104,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d8a74fd1fc0b7a427fc9367ca5c2740"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfram_ring.html#a5d8a74fd1fc0b7a427fc9367ca5c2740">pop</a> (byte *buffer)</td></tr>
 <tr class="memdesc:a5d8a74fd1fc0b7a427fc9367ca5c2740"><td class="mdescLeft">&#160;</td><td class="mdescRight">pop the oldest element off the ring  <a href="#a5d8a74fd1fc0b7a427fc9367ca5c2740">More...</a><br /></td></tr>
 <tr class="separator:a5d8a74fd1fc0b7a427fc9367ca5c2740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ec7b103aac9cfac5a6c528860d738dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfram_ring.html#a0ec7b103aac9cfac5a6c528860d738dd">popLast</a> (byte *buffer)</td></tr>
+<tr class="memdesc:a0ec7b103aac9cfac5a6c528860d738dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">pop the last (newest) element off the ring  <a href="#a0ec7b103aac9cfac5a6c528860d738dd">More...</a><br /></td></tr>
+<tr class="separator:a0ec7b103aac9cfac5a6c528860d738dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a721fa53e616dd0a82702c3e333832cf5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfram_ring.html#a721fa53e616dd0a82702c3e333832cf5">peekFirst</a> (byte *buffer)</td></tr>
+<tr class="memdesc:a721fa53e616dd0a82702c3e333832cf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">peek (do not remove) the first (oldest) element on the ring  <a href="#a721fa53e616dd0a82702c3e333832cf5">More...</a><br /></td></tr>
+<tr class="separator:a721fa53e616dd0a82702c3e333832cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0013be82018b34076708b5d43c033663"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfram_ring.html#a0013be82018b34076708b5d43c033663">peekLast</a> (byte *buffer)</td></tr>
+<tr class="memdesc:a0013be82018b34076708b5d43c033663"><td class="mdescLeft">&#160;</td><td class="mdescRight">peek (do not remove) the last (newest) element on the ring  <a href="#a0013be82018b34076708b5d43c033663">More...</a><br /></td></tr>
+<tr class="separator:a0013be82018b34076708b5d43c033663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac77511b7739fecb613445cd4f1240f02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfram_ring.html#ac77511b7739fecb613445cd4f1240f02">push</a> (byte *buffer)</td></tr>
 <tr class="memdesc:ac77511b7739fecb613445cd4f1240f02"><td class="mdescLeft">&#160;</td><td class="mdescRight">push an element onto the ring. OVERWRITE if full.  <a href="#ac77511b7739fecb613445cd4f1240f02">More...</a><br /></td></tr>
 <tr class="separator:ac77511b7739fecb613445cd4f1240f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,7 +204,7 @@ Public Member Functions</h2></td></tr>
 
 <p>clear the ring array with 0 values and reset the pointers to the beginning </p>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00479">479</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00494">494</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -240,7 +249,7 @@ Public Member Functions</h2></td></tr>
 <dd>
 false if not empty </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00484">484</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00499">499</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +273,69 @@ false if not empty </dd></dl>
 <dd>
 false if not full </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00489">489</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00504">504</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a721fa53e616dd0a82702c3e333832cf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a721fa53e616dd0a82702c3e333832cf5">&#9670;&nbsp;</a></span>peekFirst()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool framRing::peekFirst </td>
+          <td>(</td>
+          <td class="paramtype">byte *&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>peek (do not remove) the first (oldest) element on the ring </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>is a pointer to the element - i.e. (uin8_t*)&amp;element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true is the pop was successful </dd>
+<dd>
+false if the pop was not successful </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00478">478</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a0013be82018b34076708b5d43c033663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0013be82018b34076708b5d43c033663">&#9670;&nbsp;</a></span>peekLast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool framRing::peekLast </td>
+          <td>(</td>
+          <td class="paramtype">byte *&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>peek (do not remove) the last (newest) element on the ring </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>is a pointer to the element - i.e. (uin8_t*)&amp;element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true is the pop was successful </dd>
+<dd>
+false if the pop was not successful </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00483">483</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,6 +370,37 @@ false if the pop was not successful </dd></dl>
 
 </div>
 </div>
+<a id="a0ec7b103aac9cfac5a6c528860d738dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ec7b103aac9cfac5a6c528860d738dd">&#9670;&nbsp;</a></span>popLast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool framRing::popLast </td>
+          <td>(</td>
+          <td class="paramtype">byte *&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>pop the last (newest) element off the ring </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>is a pointer to the element - i.e. (uin8_t*)&amp;element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true is the pop was successful </dd>
+<dd>
+false if the pop was not successful </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00473">473</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ac77511b7739fecb613445cd4f1240f02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac77511b7739fecb613445cd4f1240f02">&#9670;&nbsp;</a></span>push()</h2>
 
@@ -326,13 +428,13 @@ false if the pop was not successful </dd></dl>
 <dd>
 false if the push was not successful </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00474">474</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8cpp_source.html#l00489">489</a> of file <a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/rober/Dropbox/SentientThings/MawreyGithub/iotnodelibrarydev/lib/IoTNode/src/<a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a></li>
-<li>C:/Users/rober/Dropbox/SentientThings/MawreyGithub/iotnodelibrarydev/lib/IoTNode/src/<a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a></li>
+<li>C:/Users/rober/Dropbox/SentientThings/SentientGithub/IoTNode/src/<a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a></li>
+<li>C:/Users/rober/Dropbox/SentientThings/SentientGithub/IoTNode/src/<a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

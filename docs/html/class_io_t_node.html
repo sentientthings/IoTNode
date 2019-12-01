@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="350x44retina.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Sentient Things IoT Node Library
-   &#160;<span id="projectnumber">Version 0.0.1</span>
+   &#160;<span id="projectnumber">Version 0.0.2</span>
    </div>
    <div id="projectbrief">Library for the Sentient Things IoT Node to manage the power and on-board peripherals like the RTC and FRAM memory</div>
   </td>
@@ -191,7 +191,7 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>main IoT Node class. Includes functions to manage external power. Read the state of the battery charger. Send a "tickle" to reset the watchdog timer and control GPIO on the IO headers. </p>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00288">288</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00316">316</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4e5733f1b8fac9509cff45e2196a5887"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e5733f1b8fac9509cff45e2196a5887">&#9670;&nbsp;</a></span>IoTNode()</h2>
@@ -861,7 +861,7 @@ false if any one of the I2C devices does not respond </dd></dl>
 <p>returns framResult enum </p>
 <p>enum framResult { framOK = 0, framBadStartAddress, framBadNumberOfBytes, framBadFinishAddress, framArrayElementTooBig, framBadArrayIndex, framBadArrayStartAddress, framBadResponse, framPartNumberMismatch, framUnknownError = 99 }; </p>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00592">592</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00620">620</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
 
 </div>
 </div>
@@ -879,13 +879,13 @@ false if any one of the I2C devices does not respond </dd></dl>
 
 <p>the IoT Node mac address as a string. This is the value of the MCP79412 real time clock. MCP79412 includes an EUI-64 node address pre-programmed into the protected EEPROM block that may be used as a unique IoT Node address. The value is read as part of <a class="el" href="class_io_t_node.html#a1dc93e26ebbdf369b8ed7c8c48f6ae37" title="start the IoT Node. Sets the state of the internal MCP23018 expander. Reads the node mac address stor...">begin()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00535">535</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_io_t_node_8h_source.html#l00563">563</a> of file <a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/rober/Dropbox/SentientThings/MawreyGithub/iotnodelibrarydev/lib/IoTNode/src/<a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a></li>
-<li>C:/Users/rober/Dropbox/SentientThings/MawreyGithub/iotnodelibrarydev/lib/IoTNode/src/<a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a></li>
+<li>C:/Users/rober/Dropbox/SentientThings/SentientGithub/IoTNode/src/<a class="el" href="_io_t_node_8h_source.html">IoTNode.h</a></li>
+<li>C:/Users/rober/Dropbox/SentientThings/SentientGithub/IoTNode/src/<a class="el" href="_io_t_node_8cpp_source.html">IoTNode.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

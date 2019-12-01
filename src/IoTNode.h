@@ -232,6 +232,34 @@ class framRing
    * @return false if the pop was not successful
 	 */
   bool pop(byte *buffer);
+
+  /**
+   * @brief pop the last (newest) element off the ring
+   * 
+   * @param buffer is a pointer to the element - i.e. (uin8_t*)&element
+   * @return true is the pop was successful
+   * @return false if the pop was not successful
+	 */
+  bool popLast(byte *buffer);
+
+  /**
+   * @brief peek (do not remove) the first (oldest) element on the ring
+   * 
+   * @param buffer is a pointer to the element - i.e. (uin8_t*)&element
+   * @return true is the pop was successful
+   * @return false if the pop was not successful
+	 */
+  bool peekFirst(byte *buffer);
+
+  
+    /**
+   * @brief peek (do not remove) the last (newest) element on the ring
+   * 
+   * @param buffer is a pointer to the element - i.e. (uin8_t*)&element
+   * @return true is the pop was successful
+   * @return false if the pop was not successful
+	 */
+  bool peekLast(byte *buffer);
   
 	/**
 	 * @brief push an element onto the ring. OVERWRITE if full.

@@ -470,6 +470,21 @@ bool framRing::pop(byte *buffer)
   return myRing.pop(buffer);
 }
 
+bool framRing::popLast(byte *buffer)
+{
+  return myRing.popLastElement(buffer);
+}
+
+bool framRing::peekFirst(byte *buffer)
+{
+  return myRing.peekFirstElement(buffer);
+}
+
+bool framRing::peekLast(byte *buffer)
+{
+  return myRing.peekLastElement(buffer);
+}
+
 // Circular buffer overwrites when full!
 void framRing::push(byte *buffer)
 {

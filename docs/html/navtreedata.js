@@ -24,6 +24,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "Sentient Things IoT Node Library", "index.html", [
+    [ "IoTNode", "md__c_1__users_rober__dropbox__sentient_things__sentient_github__io_t_node__r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
