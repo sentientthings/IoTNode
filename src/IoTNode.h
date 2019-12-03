@@ -130,9 +130,12 @@
  */
 enum powerName {INT5V, INT12V, EXT3V3, EXT5V, EXT12V};
 
-// These are the GPIO pins for the RJ45 connectors when solder jumpered to digital
-// these connect to the MCP23018 but can be jumpered to N_A0, N_A1 and N_A2
-// See IoT Node schematic
+/**
+ * @brief These are the GPIO pins for the RJ45 connectors when solder jumpered to digital.
+ *
+ * These connect to the MCP23018 but can be jumpered to N_A0, N_A1 and N_A2.
+ * See IoT Node schematic.
+ */
 enum gioName {GIO1=11, GIO2, GIO3};
 
 /**
@@ -147,7 +150,7 @@ class framArray
 {
   public:
   /**
-   * @brief Construct a new framArray object
+   * @brief Construct a new framArray object.
    *
    * Typically not used directly. @see IotNode::makeFramArray
    *
