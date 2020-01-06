@@ -328,20 +328,9 @@ class IoTNode
    * Sets the state of the internal MCP23018 expander.
    * Reads the node mac address stored in the MCP79412
    * real time clock. Starts (Wire) I2C if needed.
-   * Checks
    * 
    */
-
-  /**
-   * @brief start the IoT Node.
-   * Sets the state of the internal MCP23018 expander.
-   * Reads the node mac address stored in the MCP79412
-   * real time clock. Starts (Wire) I2C and attempts to reset if needed.
-   * Checks for the MCP23018 expander.
-   * @return true if the MCP23018 responds
-   * @return false if the MCP23018 does not respond
-   */
-  bool begin();
+  void begin();
 
   /**
    * @brief checks to see if the IoT Node is working correctly

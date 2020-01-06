@@ -20,38 +20,12 @@ IoTNode::IoTNode() : myFram(PART_NUMBER)
 
 }
 
-bool IoTNode::begin()
+void IoTNode::begin()
 {
   if (!Wire.isEnabled())
   {
     Wire.begin();
   }
-  delay(20);
-  byte error, address;
-  bool result = true;
-
-  // The i2c_scanner uses the return value of
-  // the Write.endTransmisstion to see if
-  // a device did acknowledge to the address.
-  address = 0x20; // MCP23017 address
-  Wire.beginTransmission(address);
-  error = Wire.endTransmission();
-
-  // Try again if there is an error
-  if (!error==0)
-  {
-    Wire.reset();
-    Wire.beginTransmission(address);
-    error = Wire.endTransmission();
-  }
-
-  // Return false if there is an error
-  if (!error == 0)
-  {
-    result = false;
-  }
-  
-
   expand.begin();
   //Set pin direction 1 = out, 0 = in
   //PORT_A,0b10111111 | PORT_B,0b00001111
@@ -95,7 +69,6 @@ bool IoTNode::begin()
   rtc.getMacAddress(nodeHex);
   array_to_string(nodeHex, 8, nodeHexStr);
   nodeID = String(nodeHexStr);
-  return result;
 
 }
 
