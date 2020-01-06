@@ -172,6 +172,7 @@ class framArray
    * @param index is the index of the array - will fail if out of bounds
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true if the write was successful
+   */ 
   bool write(uint32_t index, byte *buffer);
 
   /**
@@ -180,6 +181,7 @@ class framArray
    * @param index is the index of the array - will fail if out of bounds
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true if the read was successful
+   */
   bool read(uint32_t index, byte *buffer);
   
   private:
