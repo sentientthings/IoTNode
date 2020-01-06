@@ -1,7 +1,3 @@
-/**
- * @file IoTNode.h
- */
-
 #ifndef IoTNode_h
 #define IoTNode_h
 
@@ -124,42 +120,36 @@
 #define N_TX0 TX
 #endif
 
-/*
- * v1.1 of the Sentient Things IoT Node includes EXT3V3 and EXT5V regulators only.
+/**
+ * @brief v1.1 of the Sentient Things IoT Node includes EXT3V3 and EXT5V regulators only.
  * Enable pins are set for all
+ * 
  */
 enum powerName {INT5V, INT12V, EXT3V3, EXT5V, EXT12V};
 
-/**
- * @brief These are the GPIO pins for the RJ45 connectors when solder jumpered to digital.
- *
- * These connect to the MCP23018 but can be jumpered to N_A0, N_A1 and N_A2.
- * See IoT Node schematic.
- */
+// These are the GPIO pins for the RJ45 connectors when solder jumpered to digital
+// these connect to the MCP23018 but can be jumpered to N_A0, N_A1 and N_A2
+// See IoT Node schematic
 enum gioName {GIO1=11, GIO2, GIO3};
 
 /**
  * @brief The framArray class is used to create arrays of elements in Fram.
- *
  * The library manages the location of the array in Fram.
- * Elements may be atomic, structs, or arrays.
+ * Elements may be the standard variables as well as structs and arrays
  * The number of elements and the size of each element is passed to the contructor.
- * framResult returns the success. See FramI2C.h from the FramI2C library.
+ * framResult returns the success - see FramI2C.h.
+ * 
  */
 class framArray
 {
   public:
   /**
-   * @brief Construct a new framArray object.
-   *
-   * Typically not used directly. @see IotNode::makeFramArray
-   *
+   * @brief Construct a new fram Array object
+   * 
    * @param fram is the fram instance that is being used - see the FramI2C class
-   * from the FramI2C library
    * @param numberOfElements is the number of elements in the array
    * @param sizeOfElement is the size of one element in bytes - use sizeof(element)
    * @param result is an enum defining the success:
-   * @code{.cpp}
    * enum framResult
    * {
    * 	framOK = 0,
@@ -173,7 +163,6 @@ class framArray
    * 	framPartNumberMismatch,
    * 	framUnknownError = 99
    * };
-   * @endcode
    */
   framArray(FramI2C& fram, uint32_t numberOfElements, byte sizeOfElement, framResult& result);
 
@@ -183,8 +172,6 @@ class framArray
    * @param index is the index of the array - will fail if out of bounds
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true if the write was successful
-   * @return false if the write was not successful
-   */
   bool write(uint32_t index, byte *buffer);
 
   /**
@@ -193,10 +180,8 @@ class framArray
    * @param index is the index of the array - will fail if out of bounds
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true if the read was successful
-   * @return false if the read was not successful
-   */
   bool read(uint32_t index, byte *buffer);
-
+  
   private:
   uint32_t _numberOfElements;
   byte _sizeOfElement;
@@ -216,7 +201,7 @@ class framRing
   public:
 
   /**
-    * @brief Construct a new framRing Array object.
+   * @brief Construct a new framRing Array object.
    *
    * Typically not used directly. @see IotNode::makeFramRing
    *
@@ -261,7 +246,7 @@ class framRing
   bool popLast(byte *buffer);
 
   /**
-   * @brief Peek (do not remove) the first (oldest) element on the ring.
+   * @brief Peek (do not remove) the last (newest) element on the ring.
    *
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true is the pop was successful
@@ -269,33 +254,34 @@ class framRing
 	 */
   bool peekFirst(byte *buffer);
 
-
-  /**
-   * @brief Peek (do not remove) the last (newest) element on the ring.
-   *
-   * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
+  
+    /**
+   * @brief Peek (do not remove) the last (newest) element on the ring
+   * 
+   * @param buffer is a pointer to the element - i.e. (uin8_t*)&element
    * @return true is the pop was successful
    * @return false if the pop was not successful
 	 */
   bool peekLast(byte *buffer);
-
+  
 	/**
 	 * @brief Push an element onto the ring. OVERWRITE if full.
-	 *
+	 * 
    * @param buffer is a pointer to the element - e.g. (uin8_t*)&element
    * @return true is the push was successful
    * @return false if the push was not successful
-	 */
+	 */	
   void push(byte *buffer);
 
   /**
-   * @brief Clear the ring array with 0 values and reset the pointers to the beginning.
+   * @brief Clear the ring array with 0 values and reset the pointers to the beginning
+   * 
    */
 	void clearArray();
 
   /**
    * @brief Check to see if the ring array is empty.
-   *
+   * 
    * @return true if empty
    * @return false if not empty
    */
@@ -303,7 +289,7 @@ class framRing
 
   /**
    * @brief Check to see if the ring array is full.
-   *
+   * 
    * @return true if full
    * @return false if not full
    */
@@ -312,9 +298,10 @@ class framRing
   /**
    * @brief Initializes the ring by loading the saved pointers.
    * Must be run (in setup) before using the ring
+   * 
    */
   void initialize();
-
+  
   private:
   uint32_t _numberOfElements;
   byte _sizeOfElement;
@@ -325,140 +312,140 @@ class framRing
 
 /**
  * @brief Main IoT Node class.
- *
- * Includes functions to manage external power, read the state of the battery charger,
- * send a "tickle" to reset the watchdog timer, and control GPIO on the IO headers.
+ * Includes functions to manage external power. Read the state of the battery charger.
+ * Send a "tickle" to reset the watchdog timer and control GPIO on the IO headers. 
+ * 
  */
 class IoTNode
 {
   public:
 
   /**
-   * @brief Construct a new IoTNode object.
-   *
+   * @brief Construct a new IoT Node object
+   * 
    */
   IoTNode();
 
   /**
    * @brief Start the IoT Node.
-   *
    * Sets the state of the internal MCP23018 expander.
    * Reads the node mac address stored in the MCP79412
    * real time clock. Starts (Wire) I2C if needed.
-   *
+   * Checks
+   * 
    */
-  void begin();
 
   /**
-   * @brief Checks to see if the IoT Node is working correctly.
-   *
+   * @brief Start the IoT Node.
+   * Sets the state of the internal MCP23018 expander.
+   * Reads the node mac address stored in the MCP79412
+   * real time clock. Starts (Wire) I2C and attempts to reset if needed.
+   * Checks for the MCP23018 expander.
+   * @return true if the MCP23018 responds
+   * @return false if the MCP23018 does not respond
+   */
+  bool begin();
+
+  /**
+   * @brief Checks to see if the IoT Node is working correctly
    * by checking to make sure that the integrated I2C parts
    * (MCP23018 expander, MCP79412 RTCC, MB85RC256V FRAM & MCP3221 ADC)
    * respond.
-   *
+   * 
    * @return true if all I2C devices respond
    * @return false if any one of the I2C devices does not respond
    */
   bool ok();
 
   /**
-   * @brief Switch the external (or internal if added) power on or off.
-   *
-   * Controls the enable pins on the IoT Node - @see powerName.
+   * @brief Switch the external (or internal if added) power on or off
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
-   * external 5V (EXT5V).
-   *
+   * external 5V (EXT5V)
+   * 
    * @param pwrName - one off INT5V, INT12V, EXT3V3, EXT5V, EXT12V
    * @param state - true or false, HIGH or LOW
    */
   void setPowerON(powerName pwrName, bool state);
 
    /**
-   * @brief Switch the external (or internal if added) power on or off.
-   *
-   * Controls the enable pins on the IoT Node - @see powerName
+   * @brief Switch the external (or internal if added) power on or off
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
    * external 5V (EXT5V)
-   *
+   * 
    * @param pwrName - one off INT5V, INT12V, EXT3V3, EXT5V, EXT12V
    * @param state - true or false, HIGH or LOW
-   */
+   */ 
   void setPower(powerName pwrName, bool state);
 
    /**
    * @brief Switch ON the external (or internal if added) power.
-   *
-   * Controls the enable pins on the IoT Node - @see powerName
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
    * external 5V (EXT5V)
-   *
+   * 
    * @param pwrName - one off INT5V, INT12V, EXT3V3, EXT5V, EXT12V
    */
   void powerON(powerName pwrName);
 
    /**
    * @brief Switch OFF the external (or internal if added) power.
-   *
-   * Controls the enable pins on the IoT Node - see powerName
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
    * external 5V (EXT5V)
-   *
+   * 
    * @param pwrName - one off INT5V, INT12V, EXT3V3, EXT5V, EXT12V
    */
   void powerOFF(powerName pwrName);
 
    /**
    * @brief Switch ON the external (or internal if added) power.
-   *
-   * Controls the enable pins on the IoT Node - see powerName
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
    * external 5V (EXT5V)
-   */
+   */  
   void allPowerON();
 
    /**
    * @brief Switch OFF the external (or internal if added) power.
-   *
-   * Controls the enable pins on the IoT Node - see powerName
-   *
+   * Controls the enable pins on the IoT Node - see pwrName
    * The IoT Node includes on-board regulators for external 3.3V (EXT3V3) and
    * external 5V (EXT5V)
-   */
+   */    
   void allPowerOFF();
 
   /**
    * @brief Use the internal real time clock to switch off the IoT Node power.
-   *
    * The IoT Node "RTC CONTROL" switch must be set to "Yes" for this to work.
    * Note that the sleep times is in seconds.  The internal clock adds the sleep
    * seconds to the current date and time and stores the new wake up
    * date and time in memory.
-   *
+   * 
    * NOTE:
    * The mask defines what the clock checks to wake up (switch back on) the
    * IoT Node.  If ALL is selected then when the Seconds, Minutes, Hours,
    * Day of Week, Date, and Month match the new wake up date and time in memory
    * then the clock will wake up the node.
-   *
+   * 
    * If SEC (Seconds) is selected then when the time seconds next match then
    * the node will wake up.
-   *
+   * 
    * Similarly if WKDAY (day of week) is selected then the time day-of-week
    * next matches then the node will wake up.
-   *
+   * 
    * @param seconds time in seconds to switch off the power
-   * @param mask - enum value one of SEC, MIN, HOUR, WKDAY, DATE, ALL
+   * @param mask - enum value one of SEC, MIN, HOUR, WKDAY, DATE, ALL 
    */
   void switchOffFor(long seconds, maskValue mask);
 
   /**
    * @brief Use the internal real time clock to switch off the IoT Node power.
-   *
    * The IoT Node "RTC CONTROL" switch must be set to "Yes" for this to work.
    * Note that the sleep times is in seconds.  The internal clock adds the sleep
    * seconds to the current date and time and stores the new wake up
    * date and time in memory.
-   *
+   * 
    * @param seconds time in seconds to switch off the power
    */
   void switchOffFor(long seconds);
@@ -467,14 +454,13 @@ class IoTNode
    * @brief Set the selected I/O connector GPIO pin pullup
    * on the IoT Node.  See the IoT Node documentation
    * for pin configurations of the RJ45 connectors (not ethernet)
-   *
    * Uses the internal MCP23018 expander.
-   *
+   * 
    * NOTE: Solder jumpers on the bottom of the IoT Node may be
    * changed to connect GIOx pins to analog pins
    * on the Feather footprint.  See the IoT Node schematic
    * for details.
-   *
+   * 
    * @param ioName one of GIO1, GIO2, GIO3
    * @param state true or HIGH (pulled up) false or LOW (not pulled up)
    */
@@ -482,11 +468,10 @@ class IoTNode
 
   /**
    * @brief Set the selected I/O connector GPIO pin high or low.
-   *
    * See the IoT Node documentation for pin configurations
    * of the RJ45 connectors (not ethernet)
    * Uses the internal MCP23018 expander.
-   *
+   * 
    * @param ioName one of GIO1, GIO2, GIO3
    * @param state true or HIGH equals 3.3V, false or LOW equals 0V
    */
@@ -494,11 +479,10 @@ class IoTNode
 
   /**
    * @brief Read the input state of the selected connector GPIO pin.
-   *
    * See the IoT Node documentation for pin configurations
    * of the RJ45 connectors (not ethernet)
    * Uses the internal MCP23018 expander.
-   *
+   * 
    * @param ioName ioName one of GIO1, GIO2, GIO3
    * @return true if low or 0V
    * @return false if high or 3.3V
@@ -507,25 +491,24 @@ class IoTNode
 
   /**
    * @brief Send a short pulse to the analog watchdog timer to stop it resetting the node.
-   *
    * The analog watchdog timer may be set using slider and dip switches to pull the
    * reset line on the IoT Node low to reset the device that is plugged into the node. The reset period
-   * between 11 seconds and 2 hours is selected by a dip switch (see documentation).
-   * The tickleWatchdog sends a short pulse to stop the reset from happening
+   * between 11 seconds and 2 hours is selected by a dip switch (see documentation).  
+   * The tickleWatchdog sends a short pulse to stop the reset from happening 
    * and may be used to reset a devices if the pulse does not occur.
-   *
+   * 
+   * 
    * Typically used to reset hung software.
-   *
+   * 
    */
   void tickleWatchdog();
 
   /**
    * @brief Checks the state of the IoT Node to see if a LiPo battery is powering the node.
-   *
    * Uses the MCP23018 expander to read the digital state pins on the TPS2113 switch.
    * The TPS2113 automatically switches between the LiPo and the 3AA/A power source.
    * The TPS2113 switches to the 3AA (if connected) when the LiPo runs flat.
-   *
+   * 
    * @return true if a LiPo is powering the node
    * @return false if a LiPo is not powering the node
    */
@@ -533,11 +516,10 @@ class IoTNode
 
   /**
    * @brief Checks the state of the IoT Node to see if a 3AA/A battery is powering the node.
-   *
    * Uses the MCP23018 expander to read the digital state pins on the TPS2113 switch.
    * The TPS2113 automatically switches between the LiPo and the 3AA/A power source.
    * The TPS2113 switches to the 3AA (if connected) when the LiPo runs flat.
-   *
+   * 
    * @return true if a 3AA is powering the node
    * @return false if a 3AA is not powering the node
    */
@@ -545,9 +527,8 @@ class IoTNode
 
   /**
    * @brief Checks the state of the CN3065 LiPo charger DONE output pin.
-   *
    * Uses the MCP23018 expander to check the pin.
-   *
+   * 
    * @return true if the LiPo is fully charged
    * @return false if the LiPo is not fully charged
    */
@@ -555,9 +536,8 @@ class IoTNode
 
   /**
    * @brief Checks the state of the CN3065 LiPo charger CHRG output pin.
-   *
    * Uses the MCP23018 expander to check the pin.
-   *
+   * 
    * @return true if the LiPo is charging
    * @return false if the LiPo is not charging
    */
@@ -565,52 +545,48 @@ class IoTNode
 
   /**
    * @brief Measures the IoT Node input voltage.
-   *
    * The voltage is measured after the TPS2113 auto switching
    * power multiplexer.
-   *
+   * 
    * @return float - the input voltage in volts
    */
   float voltage();
 
   /**
    * @brief Returns the real time clock time in epoch or unix time.
-   *
+   * 
    * @return uint32_t unix time in seconds
    */
   uint32_t unixTime();
 
   /**
-   * @brief Set the real time clock in unix time with seconds
-   *
+   * @brief Set the real time clock unix time in seconds
+   * 
    * @param unixtime the unix time in seconds
    */
   void setUnixTime(uint32_t unixtime);
 
   /**
    * @brief The IoT Node mac address as a string.
-   *
    * This is the value of the MCP79412 real time clock.
    * MCP79412 includes an EUI-64 node address pre-programmed
    * into the protected EEPROM block that may be used as a unique
    * IoT Node address.  The value is read as part of begin().
-   *
+   * 
    */
   String nodeID;
 
   /**
    * @brief Create a ring array of elements in Fram.
-   *
    * The function keeps track of the ring array pointers.
    * IoT Node includes a 256 kbits MB85RC256V I2C Fram
    * Requires initialize() to be run prior to use.
    * i.e.
-   * @code{.cpp}
    * // Create FRAM ring of 10 integers
    * int values;
    * framRing framringtest = node.makeFramRing(10, sizeof(values));
-   * @endcode
-   *
+   * 
+   * 
    * @param numberOfElements in the ring array
    * @param sizeOfElement is the size of an element (use sizeof())
    * @return framRing a ring object in on-board fram
@@ -619,21 +595,18 @@ class IoTNode
 
   /**
    * @brief Create an array of elements in Fram.
-   *
    * The function keeps track of the ring array pointers.
    * IoT Node includes a 256 kbits MB85RC256V I2C Fram
    * i.e.
-   * @code{.cpp}
    * struct Status
    * {
-   * 	int anumber;
-   * 	int runCount;
-   * 	uint32_t lastUnixTime;
+   *  int anumber;
+   *  int runCount;
+   *  uint32_t lastUnixTime;
    * };
    * // Create an array of three struct elements
    * framArray framarraytest = node.makeFramArray(3, sizeof(testStatus));
-   * @endcode
-   *
+   * 
    * @param numberOfElements in the ring array
    * @param sizeOfElement is the size of an element (use sizeof())
    * @return framRing a ring object in on-board fram
@@ -642,8 +615,7 @@ class IoTNode
 
   /**
    * @brief Returns framResult enum.
-   *
-   * @code{.cpp}
+   * 
    * enum framResult
    * {
    * 	framOK = 0,
@@ -657,9 +629,9 @@ class IoTNode
    * 	framPartNumberMismatch,
    * 	framUnknownError = 99
    * };
-   * @endcode
+   * 
    */
-  framResult myResult = framUnknownError;
+  framResult myResult = framUnknownError; 
 
   private:
   void array_to_string(byte array[], unsigned int len, char buffer[]);
