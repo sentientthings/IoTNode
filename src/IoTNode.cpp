@@ -279,7 +279,6 @@ void IoTNode::switchOffFor(long seconds)
   rtc.enableClock();
   // Ensure the ALMxIF flag is cleared
   rtc.enableAlarm0();
-  Wire.end();
   delay(200);  
 }
 
