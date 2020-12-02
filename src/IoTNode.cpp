@@ -10,6 +10,10 @@ Adafruit_MCP23017 expand;
 
 MCP7941x rtc = MCP7941x();
 
+File myFile;
+
+SdFat SD;
+
 // Create FRAM instances
 #define PART_NUMBER MB85RC256V
 
@@ -410,6 +414,107 @@ void IoTNode::setUnixTime(uint32_t unixtime)
 }
 
 
+bool IoTNode::backupFRAMtoSD(String filename)
+{
+  if (!SD.begin(N_D0)) {
+    //Serial.println("initialization failed!");
+    return false;
+  }
+
+  framResult res = myFram.begin();
+
+	if ( res == framBadResponse)
+	{
+		//Serial.println(F("FRAM response not OK"));
+    return false;
+	}
+	else
+	{
+		//Serial.println(F("FRAM response OK"));
+		//Serial.println();
+    
+		framResult myResult = framUnknownError;
+		unsigned int myBufferSize = myFram.getMaxBufferSize();
+		unsigned long myBottom = myFram.getBottomAddress();
+		unsigned long myTop = myFram.getTopAddress();
+
+		byte framBuffer[myBufferSize];
+
+    // Write FRAM to file
+    myFile = SD.open(filename, FILE_WRITE);
+
+    // if the file opened okay, write to it:
+    if (myFile) {
+      //Serial.print("Writing to " + filename);
+      myFile.seek(0);
+      for (unsigned long i = 0; i < myTop; i += myBufferSize)
+        {
+          readFRAM(i, myBufferSize, framBuffer);
+          myFile.write(framBuffer,myBufferSize);
+        }
+      myFile.close();
+      //Serial.println(" done.");
+      return true;
+    } else {
+      // if the file didn't open, print an error:
+      //Serial.println("error opening " + filename);
+      return false;
+    }
+
+  }
+}
+
+bool IoTNode::restoreFRAMfromSD(String filename)
+{
+  if (!SD.begin(N_D0)) {
+  //Serial.println("SD initialization failed!");
+  return false;
+  }
+
+  framResult res = myFram.begin();
+
+	if ( res == framBadResponse)
+	{
+		//Serial.println(F("FRAM response not OK"));
+    return false;
+	}
+	else
+	{
+		//Serial.println(F("FRAM response OK"));
+		//Serial.println();
+    
+		framResult myResult = framUnknownError;
+		unsigned int myBufferSize = myFram.getMaxBufferSize();
+		unsigned long myBottom = myFram.getBottomAddress();
+		unsigned long myTop = myFram.getTopAddress();
+
+		byte framBuffer[myBufferSize];
+
+    // Write file to FRAM
+    myFile = SD.open(filename, FILE_WRITE);
+    
+    // if the file opened okay, read from it:
+    if (myFile) {
+      //Serial.print("Reading from " + filename);
+      myFile.seek(0);
+      for (unsigned long i = 0; i < myTop; i += myBufferSize)
+        {
+          myFile.read(framBuffer,myBufferSize);
+          writeFRAM(i, myBufferSize, framBuffer);          
+        }
+      myFile.close();
+      //Serial.println(" done.");
+      return true;
+    } else {
+      // if the file didn't open, print an error:
+      //Serial.println("error opening " + filename);
+      return false;
+    }
+
+  }
+}
+
+
 // Private
 
 void IoTNode::array_to_string(byte array[], unsigned int len, char buffer[])
@@ -422,6 +527,46 @@ void IoTNode::array_to_string(byte array[], unsigned int len, char buffer[])
         buffer[i*2+1] = nib2  < 0xA ? '0' + nib2  : 'A' + nib2  - 0xA;
     }
     buffer[len*2] = '\0';
+}
+
+void IoTNode::writeFRAM(uint32_t startaddress, uint8_t numberOfBytes, uint8_t *buffer)
+{
+  	// Write in 32 byte blocks due to wire limit
+	  const uint8_t blockSize = 30;
+	  byte* buf = buffer;
+	  uint32_t address = startaddress;
+
+	  while (numberOfBytes >= blockSize)
+	  {
+			myFram._writeMemory(address, blockSize, buf);
+		  address += blockSize;
+			buf += blockSize;
+		  numberOfBytes -= blockSize;
+	  }
+	  if (numberOfBytes > 0)
+	  {
+	    myFram._writeMemory(address, numberOfBytes, buf);
+	  }
+}
+
+void IoTNode::readFRAM(uint32_t startaddress, uint8_t numberOfBytes, uint8_t *buffer)
+{
+  // Read in 30 byte blocks due to wire requestFrom() limit
+  const uint8_t blockSize = 30;
+  byte* buf = buffer;
+  uint32_t address = startaddress;
+
+  while (numberOfBytes >= blockSize)
+  {
+	myFram._readMemory(address, blockSize, buf);
+	  address += blockSize;
+		buf += blockSize;
+	  numberOfBytes -= blockSize;
+  }
+  if (numberOfBytes > 0)
+  {
+    myFram._readMemory(address, numberOfBytes, buf);
+  }
 }
 
 //////////////////

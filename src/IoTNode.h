@@ -11,6 +11,7 @@
 #include <Adafruit_MCP23017.h>
 #include "MCP7941x.h"
 #include "FramI2C.h"
+#include <SdFat.h>
 
 // Globals defined here
 
@@ -579,6 +580,24 @@ class IoTNode
   String nodeID;
 
   /**
+   * @brief Copies the FRAM memory from byte 129 onwards to a file on the uSD card
+   * 
+   * @param filename 
+   * @return true 
+   * @return false 
+   */
+  bool backupFRAMtoSD(String filename);
+
+  /**
+   * @brief Restores a previous backup of FRAM from a file on the uSD card to FRAM
+   * 
+   * @param filename 
+   * @return true 
+   * @return false 
+   */
+  bool restoreFRAMfromSD(String filename);
+
+  /**
    * @brief Create a ring array of elements in Fram.
    * The function keeps track of the ring array pointers.
    * IoT Node includes a 256 kbits MB85RC256V I2C Fram
@@ -638,6 +657,8 @@ class IoTNode
   private:
   void array_to_string(byte array[], unsigned int len, char buffer[]);
   FramI2C myFram;
+  void writeFRAM(uint32_t startaddress, uint8_t numberOfBytes, uint8_t *buffer);
+  void readFRAM(uint32_t startaddress, uint8_t numberOfBytes, uint8_t *buffer);
 };
 
 #endif
