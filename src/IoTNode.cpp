@@ -259,6 +259,9 @@ void IoTNode::switchOffFor(long seconds, maskValue mask)
 // RTC CONTROL switch must be set to Yes
 void IoTNode::switchOffFor(long seconds)
 {
+  int rtcnow = rtc.rtcNow();
+  int alarmTime = rtcnow + seconds; 
+  rtc.disableClock();
   // Set the RTC high so that the power stays on until the alarm is enabled
   rtc.outHigh();
   // Disable both alarms
@@ -269,8 +272,6 @@ void IoTNode::switchOffFor(long seconds)
   rtc.setAlarm0PolHigh();
   rtc.clearIntAlarm0();
   // Load the alarm match value (all registers)      
-  int rtcnow = rtc.rtcNow();
-  int alarmTime = rtcnow + seconds;
   rtc.setAlarm0UnixTime(alarmTime);
   // Enable the alarm. This will set the MFP output low
   // turning off the power until the alarm triggers
