@@ -283,6 +283,17 @@ void IoTNode::switchOffFor(long seconds)
   delay(200);  
 }
 
+void IoTNode::resetRTCSwitch()
+{
+  rtc.disableClock();
+  // Set the RTC high so that the power stays on until the alarm is enabled
+  rtc.outHigh();
+  // Disable both alarms
+  rtc.disableAlarms();
+  // Set the timer mask
+  rtc.enableClock();
+}
+
 
 // Sets a high or low pullup the GPIO pin on the RJ45 connectors
 // Uses the MCP23018 expander

@@ -454,6 +454,14 @@ class IoTNode
   void switchOffFor(long seconds);
 
   /**
+   * @brief Clear the RTC clock power off state so that the IoT Node can be switched
+   * back to RTC Control mode without switching off.  Useful if one needs to use the
+   * switched to manually overwrite the RTC switched off state.
+   * 
+   */
+  void resetRTCSwitch();
+
+  /**
    * @brief Set the selected I/O connector GPIO pin pullup
    * on the IoT Node.  See the IoT Node documentation
    * for pin configurations of the RJ45 connectors (not ethernet)
