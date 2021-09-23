@@ -1,9 +1,3 @@
-#ifdef PARTICLE
-  #include "Particle.h"
-#else
-  #include "arduino.h"
-#endif //end of #ifdef PARTICLE
-
 #include "IoTNode.h"
 
 Adafruit_MCP23017 expand;
@@ -18,18 +12,44 @@ SdFat SD;
 #define PART_NUMBER MB85RC256V
 
 
+
+
 // Constructor
 IoTNode::IoTNode() : myFram(PART_NUMBER)
 {
 
 }
 
+void IoTNode::resetWire(){
+  #ifdef PARTICLE
+    Wire.reset();
+  #else
+    pinMode(D0, INPUT_PULLUP); //Turn SCA into high impedance input
+    pinMode(D1, OUTPUT); //Turn SCL into a normal GPO 
+    digitalWrite(D1, HIGH); // Start idle HIGH
+
+    //Generate 9 pulses on SCL to tell slave to release the bus
+    for(int i=0; i <9; i++)
+    {
+      digitalWrite(D1, LOW);
+      delayMicroseconds(100);
+      digitalWrite(D1, HIGH);
+      delayMicroseconds(100);
+    }
+
+    //Change SCL to be an input
+    pinMode(D1, INPUT_PULLUP);
+
+    //Start i2c over again
+    Wire.begin(); 
+    delay(50);
+  #endif
+}
+
 bool IoTNode::begin()
 {
-  if (!Wire.isEnabled())
-  {
-    Wire.begin();
-  }
+  Wire.begin();
+
   delay(20);
   byte error, address;
   bool result = true;
@@ -44,7 +64,7 @@ bool IoTNode::begin()
   // Try again if there is an error
   if (!error==0)
   {
-    Wire.reset();
+    resetWire();
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
   }
@@ -119,10 +139,9 @@ bool IoTNode::ok()
       0x4D, //77
       0x50 //80
   };
-  if (!Wire.isEnabled())
-  {
-    Wire.begin();
-  }
+
+  Wire.begin();
+
   byte error, address;
   bool result = true;
   for (int i=0; i<5; ++i)
@@ -137,7 +156,7 @@ bool IoTNode::ok()
     // Try again if there is an error
     if (!error==0)
     {
-      Wire.reset();
+      resetWire();
       Wire.beginTransmission(address);
       error = Wire.endTransmission();
     }
@@ -310,7 +329,7 @@ void IoTNode::setPullUp(gioName ioName, bool state)
 // GIO1 is the GPIO pin (labled IO) on the RJ45 I/O-1 connector
 // GIO2 is the GPIO pin (labled IO) on the RJ45 I/O-2 connector
 // GIO3 is the GPIO pin (labled IO) on the RJ45 I/O-3 connector
-void IoTNode::digitalWrite(gioName ioName, bool state)
+void IoTNode::setGIO(gioName ioName, bool state)
 {
   expand.pinMode(ioName,OUTPUT);
   expand.digitalWrite(ioName, state);
@@ -321,7 +340,7 @@ void IoTNode::digitalWrite(gioName ioName, bool state)
 // GIO1 is the GPIO pin (labled IO) on the RJ45 I/O-1 connector
 // GIO2 is the GPIO pin (labled IO) on the RJ45 I/O-2 connector
 // GIO3 is the GPIO pin (labled IO) on the RJ45 I/O-3 connector
-bool IoTNode::digitalRead(gioName ioName)
+bool IoTNode::getGIO(gioName ioName)
 {
   expand.pinMode(ioName,INPUT);
   if(expand.digitalRead(ioName)==0)
@@ -428,7 +447,6 @@ void IoTNode::setUnixTime(uint32_t unixtime)
 bool IoTNode::backupFRAMtoSD(String filename)
 {
   if (!SD.begin(N_D0)) {
-    //Serial.println("initialization failed!");
     return false;
   }
 
@@ -688,5 +706,6 @@ bool framRing::isFull()
 {
   return myRing.isFull();
 }
+
 
  

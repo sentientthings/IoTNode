@@ -1,0 +1,7 @@
+{
+	"name": "IoTNode",
+	"version": "0.0.9",
+	"dependencies": {
+		"adafruit/SdFat - Adafruit Fork": "^1.2.4"
+	}
+}

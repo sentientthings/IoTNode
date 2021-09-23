@@ -5,6 +5,7 @@
   #include "Particle.h"
 #else
   #include "arduino.h"
+  #include "Wire.h"
 #endif //end of #ifdef PARTICLE
 
 
@@ -119,6 +120,40 @@
 #define N_MISO MISO
 #define N_RX0 RX
 #define N_TX0 TX
+#endif
+
+#define ARTEMIS
+
+#ifdef ARTEMIS
+  #define N_SDA0 D16
+  #define N_SCL0 D17
+  #define SDA D16
+  #define SCL D17
+  #define N_D0 D3
+  #define GIOA D3
+  #define N_D1 D4
+  #define GIOB D4
+  #define N_D2 D5
+  #define GIOC D5
+  #define N_D3 D6
+  #define GIOD D6
+  #define N_D4 D7
+  #define GIOE D7
+  #define N_D5 D8
+  #define GIOF D8
+  #define N_D6 D9
+  #define GIOG D9
+  #define N_A0 A0
+  #define N_A1 A1
+  #define N_A2 A2
+  #define N_A3 A3
+  #define N_A4 A4
+  #define N_A5 A5
+  #define N_SCK SCK
+  #define N_MOSI MOSI
+  #define N_MISO MISO
+  #define N_RX0 RX
+  #define N_TX0 TX
 #endif
 
 /**
@@ -486,7 +521,7 @@ class IoTNode
    * @param ioName one of GIO1, GIO2, GIO3
    * @param state true or HIGH equals 3.3V, false or LOW equals 0V
    */
-  void digitalWrite(gioName ioName, bool state);
+  void setGIO(gioName ioName, bool state);
 
   /**
    * @brief Read the input state of the selected connector GPIO pin.
@@ -498,7 +533,7 @@ class IoTNode
    * @return true if low or 0V
    * @return false if high or 3.3V
    */
-  bool digitalRead(gioName ioName);
+  bool getGIO(gioName ioName);
 
   /**
    * @brief Send a short pulse to the analog watchdog timer to stop it resetting the node.
@@ -604,6 +639,8 @@ class IoTNode
    * @return false 
    */
   bool restoreFRAMfromSD(String filename);
+
+  void resetWire();
 
   /**
    * @brief Create a ring array of elements in Fram.
